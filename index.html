@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partitura Empresarial | Creemos que ninguna empresa debería destruirse por desalineación</title>
+    <meta name="description" content="Creemos que las organizaciones con talento merecen la metodología correcta para alinearse. Partitura Empresarial — Ingeniería de Alineación para PYMES mexicanas.">
+    <link rel="icon" type="image/webp" href="favicon.webp">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #1a4d4d;
+            --primary-light: #2d6b6b;
+            --accent: #d4af37;
+            --accent-light: #f4cf5c;
+            --bg-dark: #0c1f1f;
+            --bg-mid: #122828;
+            --bg-light: #f5f4f0;
+            --bg-cream: #faf9f6;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #6c757d;
+            --why-bg: #0c1f1f;
+            --how-bg: #f5f4f0;
+            --what-bg: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background: var(--bg-cream);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.15;
+        }
+
+        h1 { font-size: clamp(2.4rem, 5.5vw, 5rem); font-weight: 300; }
+        h2 { font-size: clamp(2rem, 4vw, 3.8rem); font-weight: 300; }
+        h3 { font-size: clamp(1.5rem, 2.8vw, 2.4rem); font-weight: 400; }
+
+        /* Bridge statement */
+        .bridge-statement {
+            background: var(--why-bg);
+            padding: 5rem 0 6rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .bridge-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(255,255,255,0.92);
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+        }
+
+        .bridge-text::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+            margin-top: 2rem;
+        }
+
+        /* Video placeholder */
+        .video-placeholder {
+            background: rgba(255,255,255,0.03);
+            border: 1px dashed rgba(212,175,55,0.3);
+            border-radius: 4px;
+            aspect-ratio: 16/9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 3rem;
+            max-width: 640px;
+        }
+
+        .video-placeholder .play-icon {
+            width: 56px;
+            height: 56px;
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-light);
+            font-size: 1.4rem;
+        }
+
+        /* Step summary text */
+        .step-summary {
+            color: rgba(255,255,255,0.58);
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        /* ─── PROGRESS INDICATOR ────────────────────────────── */
+        /* Desktop: pastilla fija a la derecha */
+        .progress-pill {
+            position: fixed;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 900;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+            transition: color 0.4s ease;
+        }
+
+        /* Tema oscuro (fondo verde/negro) → texto dorado */
+        .progress-pill.theme-dark .pill-pct,
+        .progress-pill.theme-dark .pill-label { color: var(--accent-light); }
+        .progress-pill.theme-dark .pill-track { background: rgba(255,255,255,0.1); }
+        .progress-pill.theme-dark .pill-fill  { background: var(--accent); }
+
+        /* Tema dorado (fondo amarillo) → texto verde oscuro */
+        .progress-pill.theme-gold .pill-pct,
+        .progress-pill.theme-gold .pill-label { color: var(--bg-dark); }
+        .progress-pill.theme-gold .pill-track { background: rgba(12,31,31,0.2); }
+        .progress-pill.theme-gold .pill-fill  { background: var(--bg-dark); }
+
+        /* Tema claro (fondo blanco/gris) → texto verde primario */
+        .progress-pill.theme-light .pill-pct,
+        .progress-pill.theme-light .pill-label { color: var(--primary); }
+        .progress-pill.theme-light .pill-track { background: rgba(26,77,77,0.12); }
+        .progress-pill.theme-light .pill-fill  { background: var(--primary); }
+
+        .pill-track {
+            width: 3px;
+            height: 200px;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.4s ease;
+        }
+
+        .pill-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 2px;
+            transition: height 0.25s ease, background 0.4s ease;
+            height: 0%;
+        }
+
+        .pill-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            opacity: 0.9;
+            white-space: nowrap;
+            transition: color 0.4s ease;
+        }
+
+        .pill-pct {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            line-height: 1;
+            transition: color 0.4s ease;
+        }
+
+        /* Mobile: barra horizontal pegada arriba (debajo del header) */
+        .progress-bar-mobile {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            z-index: 899;
+            height: 3px;
+        }
+
+        /* Mobile también cambia de tema */
+        .progress-bar-mobile.theme-dark  { background: rgba(255,255,255,0.06); }
+        .progress-bar-mobile.theme-gold  { background: rgba(12,31,31,0.15); }
+        .progress-bar-mobile.theme-light { background: rgba(26,77,77,0.1); }
+
+        .bar-fill-mobile {
+            height: 100%;
+            width: 0%;
+            transition: width 0.25s ease, background 0.4s ease;
+        }
+
+        .progress-bar-mobile.theme-dark  .bar-fill-mobile { background: var(--accent); }
+        .progress-bar-mobile.theme-gold  .bar-fill-mobile { background: var(--bg-dark); }
+        .progress-bar-mobile.theme-light .bar-fill-mobile { background: var(--primary); }
+
+        .bar-label-mobile {
+            position: absolute;
+            right: 12px;
+            top: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 2px 8px 2px 6px;
+            border-radius: 2px;
+            white-space: nowrap;
+            transition: color 0.4s ease, background 0.4s ease;
+        }
+
+        .progress-bar-mobile.theme-dark  .bar-label-mobile { color: var(--accent-light); background: rgba(12,31,31,0.85); }
+        .progress-bar-mobile.theme-gold  .bar-label-mobile { color: var(--bg-dark);       background: rgba(212,175,55,0.3); }
+        .progress-bar-mobile.theme-light .bar-label-mobile { color: var(--primary);       background: rgba(255,255,255,0.9); }
+
+        @media (max-width: 1024px) {
+            .progress-pill { display: none; }
+            .progress-bar-mobile { display: block; }
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ─── LAYER LABELS ─────────────────────────────────── */
+        .layer-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .layer-label .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .layer-why .dot { background: var(--accent); }
+        .layer-how .dot { background: var(--primary-light); }
+        .layer-what .dot { background: var(--text-muted); }
+
+        /* ─── HEADER ────────────────────────────────────────── */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.4rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+            transition: all 0.4s ease;
+        }
+
+        header.scrolled {
+            background: rgba(12, 31, 31, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .logo span { color: rgba(255,255,255,0.5); font-weight: 300; }
+
+        .nav-cta {
+            background: transparent;
+            color: var(--accent-light);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 0.65rem 1.8rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            border-color: var(--accent);
+        }
+
+        /* ─── WHY HERO ──────────────────────────────────────── */
+        .hero-why {
+            min-height: 100vh;
+            background: var(--why-bg);
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 5rem;
+        }
+
+        .hero-why::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 10% 60%, rgba(212, 175, 55, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 90% 20%, rgba(26, 77, 77, 0.4) 0%, transparent 60%);
+        }
+
+        /* Staff lines decoration */
+        .staff-lines {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 45%;
+            height: 100%;
+            opacity: 0.04;
+            overflow: hidden;
+        }
+
+        .staff-lines::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 15%;
+            right: 0;
+            height: 70%;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(212,175,55,1) 0px,
+                rgba(212,175,55,1) 1px,
+                transparent 1px,
+                transparent 28px
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            padding: 4rem 0;
+        }
+
+        .hero-content .layer-label {
+            color: var(--accent-light);
+            opacity: 0;
+            animation: riseUp 0.9s ease 0.1s forwards;
+        }
+
+        .hero-content h1 {
+            font-style: italic;
+            color: white;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: riseUp 0.9s ease 0.3s forwards;
+        }
+
+        .hero-content h1 em {
+            font-style: normal;
+            color: var(--accent-light);
+        }
+
+        .hero-lead {
+            font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+            color: rgba(255,255,255,0.75);
+            font-weight: 300;
+            max-width: 640px;
+            line-height: 1.8;
+            margin-bottom: 3.5rem;
+            opacity: 0;
+            animation: riseUp 0.9s ease 0.5s forwards;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: riseUp 0.9s ease 0.7s forwards;
+        }
+
+        @keyframes riseUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 1rem 2.2rem;
+            border-radius: 2px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-gold {
+            background: var(--accent);
+            color: var(--bg-dark);
+        }
+
+        .btn-gold:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212,175,55,0.25);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: rgba(255,255,255,0.7);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-ghost:hover {
+            color: white;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .btn-dark {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-dark:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* ─── WHY FOUNDER ───────────────────────────────────── */
+        .founder-section {
+            background: #ffffff;
+            color: var(--text-dark);
+            padding: clamp(5rem, 10vw, 9rem) 0;
+            border-top: 4px solid var(--accent);
+        }
+
+        .founder-inner {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .founder-photo-wrap {
+            position: relative;
+        }
+
+        .founder-photo-wrap img {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+            filter: grayscale(20%);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1;
+            border: 1px dashed rgba(26,77,77,0.25);
+            border-radius: 4px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            color: rgba(26,77,77,0.35);
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-align: center;
+            background: var(--bg-light);
+        }
+
+        .photo-placeholder span:first-child { font-size: 2.5rem; }
+
+        .founder-photo-accent {
+            position: absolute;
+            bottom: -16px;
+            right: -16px;
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1;
+            border: 2px solid rgba(212,175,55,0.4);
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        .founder-content .layer-label { color: var(--primary); }
+
+        .founder-content h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .founder-role {
+            color: var(--primary-light);
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 2.5rem;
+            display: block;
+        }
+
+        .founder-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+            font-style: italic;
+            color: var(--primary);
+            line-height: 1.6;
+            border-left: 3px solid var(--accent);
+            padding-left: 2rem;
+            margin: 2.5rem 0;
+            background: rgba(212,175,55,0.05);
+            padding: 1.5rem 2rem;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .founder-body {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.9;
+            margin-bottom: 2rem;
+        }
+
+        .credentials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .credential-tag {
+            background: rgba(26,77,77,0.07);
+            border: 1px solid rgba(26,77,77,0.2);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 2px;
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── WHY PROBLEM ───────────────────────────────────── */
+        .problem-section {
+            background: var(--primary);
+            color: white;
+            padding: clamp(5rem, 10vw, 9rem) 0;
+        }
+
+        .problem-intro {
+            max-width: 700px;
+            margin: 0 auto 5rem;
+            text-align: center;
+        }
+
+        .problem-intro h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-intro p {
+            color: rgba(255,255,255,0.75);
+            font-size: 1.1rem;
+            line-height: 1.9;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .problem-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--accent);
+            padding: 3rem 2.5rem;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .problem-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-4px);
+        }
+
+        .problem-glyph {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .problem-card h3 {
+            color: var(--accent-light);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.97rem;
+            line-height: 1.8;
+        }
+
+        /* ─── BRIDGE STATEMENT ───────────────────────────────── */
+        .bridge-statement {
+            background: var(--accent);
+            padding: 5rem 0 6rem;
+        }
+
+        .bridge-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 5vw, 4.5rem);
+            font-weight: 600;
+            color: var(--bg-dark);
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .bridge-text::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--bg-dark);
+            margin-top: 2rem;
+            opacity: 0.3;
+        }
+
+        /* ─── HOW SECTION ───────────────────────────────────── */
+        .how-section {
+            background: #ffffff;
+            padding: clamp(5rem, 10vw, 9rem) 0;
+        }
+
+        .how-intro {
+            max-width: 680px;
+            margin-bottom: 5rem;
+        }
+
+        .how-intro .layer-label { color: var(--primary); }
+
+        .how-intro h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .how-intro p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.9;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .method-card {
+            background: var(--primary);
+            color: white;
+            border-radius: 4px;
+            padding: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-card:first-child {
+            background: var(--bg-dark);
+        }
+
+        .method-card::after {
+            content: attr(data-layer);
+            position: absolute;
+            bottom: -1.5rem;
+            right: 2rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.04);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .method-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 0.3rem 1rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 1px;
+            margin-bottom: 1.8rem;
+        }
+
+        .method-card h3 {
+            color: white;
+            margin-bottom: 1.2rem;
+            font-size: 2rem;
+        }
+
+        .method-card > p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.97rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .method-features {
+            list-style: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+        }
+
+        .method-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.8);
+            font-size: 0.93rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .method-features li::before {
+            content: '—';
+            color: var(--accent-light);
+            flex-shrink: 0;
+        }
+
+        .method-result {
+            margin-top: 2rem;
+            background: rgba(212,175,55,0.12);
+            border: 1px solid rgba(212,175,55,0.25);
+            padding: 1.2rem 1.5rem;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+        }
+
+        /* ─── HOW PROCESS ───────────────────────────────────── */
+        .process-section {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            padding: clamp(5rem, 10vw, 9rem) 0;
+        }
+
+        .process-intro {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 5rem;
+        }
+
+        .process-intro .layer-label { color: var(--primary); justify-content: center; }
+
+        .process-intro h2 { color: var(--primary); margin-bottom: 1rem; }
+
+        .process-intro p { color: var(--text-muted); font-size: 1rem; }
+
+        .process-timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 2.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, var(--accent) 10%, var(--accent) 90%, transparent);
+            opacity: 0.4;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 5rem;
+            height: 5rem;
+            flex-shrink: 0;
+            background: white;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            font-weight: 600;
+            z-index: 1;
+            box-shadow: 0 4px 16px rgba(212,175,55,0.15);
+        }
+
+        .step-content {
+            padding-top: 0.8rem;
+            flex: 1;
+        }
+
+        .step-tag {
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .step-content h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-summary {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+
+        .process-summary {
+            background: white;
+            border: 1px solid rgba(26,77,77,0.12);
+            border-top: 3px solid var(--accent);
+            border-radius: 4px;
+            padding: 3rem;
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .summary-item strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .summary-item span {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        /* ─── WHAT RESULTS ──────────────────────────────────── */
+        .results-section {
+            background: var(--primary);
+            padding: clamp(5rem, 10vw, 9rem) 0;
+        }
+
+        .results-intro {
+            max-width: 680px;
+            margin: 0 auto 5rem;
+            text-align: center;
+        }
+
+        .results-intro .layer-label { justify-content: center; color: rgba(255,255,255,0.5); }
+
+        .results-intro h2 { color: white; margin-bottom: 1.5rem; }
+
+        .results-intro p { color: rgba(255,255,255,0.65); font-size: 1.05rem; }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            background: white;
+            padding: 3.5rem 2.5rem;
+            border-top: 4px solid var(--accent);
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .result-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 50px rgba(0,0,0,0.2);
+        }
+
+        .result-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            color: rgba(26,77,77,0.12);
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+
+        .result-card h3 {
+            color: var(--primary);
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Stats */
+        .stats-section {
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 4rem 0;
+        }
+
+        .stats-inner {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            border-right: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .stat-item:last-child { border-right: none; }
+
+        .stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--bg-dark);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(12,31,31,0.65);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* ─── WHAT SERVICES ─────────────────────────────────── */
+        .services-section {
+            background: #ffffff;
+            padding: clamp(5rem, 10vw, 9rem) 0;
+        }
+
+        .services-intro {
+            max-width: 680px;
+            margin-bottom: 4rem;
+        }
+
+        .services-intro .layer-label { color: var(--text-muted); }
+
+        .services-intro h2 { color: var(--primary); margin-bottom: 1rem; }
+
+        .services-intro p { color: var(--text-muted); font-size: 1rem; }
+
+        /* Launch offer */
+        .launch-offer {
+            background: linear-gradient(135deg, var(--bg-dark), var(--primary));
+            border-radius: 4px;
+            padding: 3.5rem;
+            color: white;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .launch-offer::before {
+            content: 'LANZAMIENTO';
+            position: absolute;
+            top: -1rem; right: -2rem;
+            font-size: 6rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: rgba(255,255,255,0.03);
+            letter-spacing: 5px;
+        }
+
+        .launch-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--bg-dark);
+            padding: 0.4rem 1.2rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .launch-offer h3 {
+            color: white;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .launch-offer p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .launch-criteria {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .launch-criteria li {
+            list-style: none;
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            color: rgba(255,255,255,0.65);
+            font-size: 0.9rem;
+        }
+
+        .launch-criteria li::before {
+            content: '✓';
+            color: var(--accent-light);
+            flex-shrink: 0;
+            margin-top: 0.05rem;
+        }
+
+        /* Countdown */
+        .countdown-wrap {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 2px;
+            padding: 1.5rem 2rem;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .countdown-label-text {
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .countdown-digits {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .cd-block { text-align: center; }
+
+        .cd-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--accent-light);
+            font-weight: 600;
+            line-height: 1;
+            display: block;
+            min-width: 2ch;
+        }
+
+        .cd-unit {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .cd-sep {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: rgba(255,255,255,0.2);
+            align-self: flex-start;
+            line-height: 1.1;
+        }
+
+        /* Service cards */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .svc-card {
+            border: 1px solid rgba(26,77,77,0.12);
+            border-left: 4px solid var(--primary);
+            border-radius: 2px;
+            padding: 2.5rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: start;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .svc-card:hover {
+            border-left-color: var(--accent);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            transform: translateX(4px);
+        }
+
+        .svc-type {
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .svc-card h3 {
+            color: var(--primary);
+            font-size: 1.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .svc-desc {
+            color: var(--text-muted);
+            font-size: 0.93rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .svc-features {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .svc-features li {
+            font-size: 0.88rem;
+            color: var(--text-dark);
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        .svc-features li::before {
+            content: '→';
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .svc-price-col {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .svc-price-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .svc-price-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem;
+            white-space: nowrap;
+        }
+
+        /* ─── CTA FINAL ─────────────────────────────────────── */
+        .cta-final {
+            background: var(--why-bg);
+            color: white;
+            padding: clamp(6rem, 12vw, 10rem) 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-final::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 100%, rgba(212,175,55,0.08) 0%, transparent 70%);
+        }
+
+        .cta-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .cta-final .layer-label { justify-content: center; color: var(--accent-light); }
+
+        .cta-final h2 { color: white; margin-bottom: 1.5rem; }
+
+        .cta-final p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 3rem;
+        }
+
+        .qualify-list {
+            list-style: none;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 4px;
+            padding: 2.5rem;
+            text-align: left;
+            margin-bottom: 3rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .qualify-list li {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            color: rgba(255,255,255,0.75);
+            font-size: 0.97rem;
+        }
+
+        .qualify-list li::before {
+            content: '✓';
+            color: var(--accent-light);
+            flex-shrink: 0;
+        }
+
+        .cta-micro {
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.3);
+            margin-top: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── FOOTER ────────────────────────────────────────── */
+        footer {
+            background: var(--bg-dark);
+            padding: 4rem 0 2rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand .logo { font-size: 1.5rem; }
+
+        .footer-tagline {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.85rem;
+            font-style: italic;
+            font-family: 'Cormorant Garamond', serif;
+            margin-top: 0.8rem;
+            max-width: 300px;
+            line-height: 1.6;
+        }
+
+        .footer-contact a, .footer-contact span {
+            display: block;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.88rem;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-contact a:hover { color: var(--accent-light); }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.4);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent);
+            color: var(--accent-light);
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.8rem;
+        }
+
+        /* ─── WHATSAPP ──────────────────────────────────────── */
+        .wa-float {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 54px;
+            height: 54px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            z-index: 999;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+        }
+
+        .wa-float::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid #25D366;
+            animation: wa-pulse 2s ease-out infinite;
+        }
+
+        @keyframes wa-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* ─── SCROLL ANIMATIONS ─────────────────────────────── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ────────────────────────────────────── */
+        @media (max-width: 900px) {
+            .founder-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .founder-photo-wrap { max-width: 220px; }
+            .method-grid { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: 1fr; }
+            .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+            .svc-card { grid-template-columns: 1fr; }
+            .svc-price-col { text-align: left; }
+            .launch-criteria { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; gap: 2rem; }
+            .nav-cta { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-cta-group { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="site-header">
+        <a href="#" class="logo">🎼 PARTITURA <span>EMPRESARIAL</span></a>
+        <a href="#contacto" class="nav-cta">Agenda tu Sesión</a>
+    </header>
+
+    <!-- PROGRESS INDICATOR (desktop: pastilla derecha / mobile: barra superior) -->
+    <div class="progress-pill" aria-hidden="true">
+        <div class="pill-pct" id="pPct">0%</div>
+        <div class="pill-track">
+            <div class="pill-fill" id="pFill"></div>
+        </div>
+        <div class="pill-label" id="pLabel">Inicio</div>
+    </div>
+
+    <div class="progress-bar-mobile" aria-hidden="true">
+        <div class="bar-fill-mobile" id="pBarMobile"></div>
+        <div class="bar-label-mobile" id="pLabelMobile">Inicio</div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- WHY — La Creencia                          -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="hero-why">
+        <div class="staff-lines"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="layer-label layer-why">
+                    <span class="dot"></span>
+                    Por qué existimos
+                </div>
+                <h1>Creemos que ninguna empresa debería <em>destruirse por dentro</em> cuando el talento ya está ahí.</h1>
+                <p class="hero-lead">
+                    Las organizaciones no fracasan por falta de gente capaz. Fracasan porque esa gente no toca la misma partitura. Eso tiene nombre, tiene causa y tiene solución. Eso es lo que construimos.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="#contacto" class="btn btn-gold">
+                        <span>📱</span>
+                        <span>Agenda una Sesión de Claridad</span>
+                    </a>
+                    <a href="#como" class="btn btn-ghost">
+                        <span>Conoce cómo lo hacemos</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- WHY — El Fundador                          -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="founder-section" id="founder-section">
+        <div class="container">
+            <div class="founder-inner reveal">
+                <div class="founder-photo-wrap">
+                    <!-- FOTO: reemplazar src con pedro-cruz-fundador.jpg -->
+                    <img src="pedro-cruz-fundador.jpg"
+                         alt="Pedro Daniel Cruz Verdeja — Fundador de Partitura Empresarial"
+                         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <!-- Placeholder visible si no hay foto -->
+                    <div class="photo-placeholder" style="display:none;">
+                        <span>📸</span>
+                        <span>pedro-cruz-fundador.jpg</span>
+                    </div>
+                    <div class="founder-photo-accent"></div>
+                </div>
+
+                <div class="founder-content">
+                    <div class="layer-label layer-why">
+                        <span class="dot"></span>
+                        La historia detrás
+                    </div>
+                    <h2>Pedro Daniel Cruz Verdeja</h2>
+                    <span class="founder-role">Fundador · Psicólogo Organizacional · MBA</span>
+
+                    <blockquote class="founder-quote">
+                        "Fundé Partitura Empresarial después de ver el mismo patrón repetirse: empresas con talento increíble destruyéndose por falta de alineación. No quería dar más pláticas motivacionales. Quería resolver esto de raíz."
+                    </blockquote>
+
+                    <p class="founder-body">
+                        Pasé años dentro de organizaciones viendo cómo los problemas de coordinación se diagnosticaban mal, se atendían tarde y se resolvían con parches. Me di cuenta de que la consultoría tradicional trabajaba con percepciones. Yo quería trabajar con evidencia.
+                    </p>
+
+                    <p class="founder-body">
+                        Así nació la metodología de doble capa: un instrumento que mide lo que el equipo dice, y una simulación que revela lo que realmente hace. Porque hay una brecha entre esas dos realidades que ningún diagnóstico convencional puede ver.
+                    </p>
+
+                    <div class="credentials">
+                        <span class="credential-tag">Maestría en Alta Dirección</span>
+                        <span class="credential-tag">Psicología Organizacional</span>
+                        <span class="credential-tag">Profesor Universitario</span>
+                        <span class="credential-tag">EAO V.4 + SDO³</span>
+                        <span class="credential-tag">Aguascalientes, MX</span>
+                    </div>
+
+                    <!-- VIDEO: sustituir este bloque con <video> o iframe de YouTube/Vimeo (90 seg) -->
+                    <div class="video-placeholder">
+                        <div class="play-icon">▶</div>
+                        <span>Video de presentación · 90 seg</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- WHY — El Problema que vemos               -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="problem-section" id="problem-section">
+        <div class="container">
+            <div class="problem-intro reveal">
+                <div class="layer-label layer-why" style="justify-content:center; color:var(--accent-light);">
+                    <span class="dot"></span>
+                    El patrón que nos duele ver
+                </div>
+                <h2>Tu empresa no falla por falta de talento. Falla por desalineación.</h2>
+                <p>
+                    Cada mes que el problema permanece invisible, el caos se amplifica. Las PYMES familiares con 11–250 colaboradores pierden en promedio <strong style="color:var(--accent-light);">$450,000 MXN anuales</strong> por un impuesto que nunca aparece en el estado de resultados.
+                </p>
+            </div>
+
+            <div class="problem-grid">
+                <div class="problem-card reveal">
+                    <span class="problem-glyph">🎵</span>
+                    <h3>Ruido en lugar de música</h3>
+                    <p>Reuniones interminables sin decisiones. Información atrapada en silos. Comunicación reactiva que multiplica malentendidos y consume la energía que debería ir al crecimiento.</p>
+                </div>
+
+                <div class="problem-card reveal">
+                    <span class="problem-glyph">🎻</span>
+                    <h3>Solistas sin orquesta</h3>
+                    <p>Departamentos trabajando como islas. Esfuerzos que no suman. El ROI se diluye porque nadie está tocando la misma partitura al mismo tiempo.</p>
+                </div>
+
+                <div class="problem-card reveal">
+                    <span class="problem-glyph">⏱️</span>
+                    <h3>Tempo descontrolado</h3>
+                    <p>La sensación extenuante de correr mucho sin avanzar. Urgencias que devoran la estrategia. Reacción constante a crisis que eran predecibles y evitables.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Transición WHY → HOW -->
+    <div class="bridge-statement" id="bridge-statement">
+        <div class="container">
+            <p class="bridge-text">EMPEZAMOS DESDE ADENTRO<br>PARA CONOCER LA REALIDAD<br>QUE DESALINEA.</p>
+        </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- HOW — La Metodología                       -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="how-section" id="como">
+        <div class="container">
+            <div class="how-intro reveal">
+                <div class="layer-label layer-how">
+                    <span class="dot"></span>
+                    Cómo lo hacemos diferente
+                </div>
+                <h2>Medimos lo que el equipo dice. Y lo que realmente hace.</h2>
+                <p>
+                    La consultoría tradicional trabaja con percepciones. Nosotros trabajamos con evidencia. Por eso desarrollamos dos instrumentos propios que capturan la realidad del sistema organizacional, no su versión oficial.
+                </p>
+            </div>
+
+            <div class="method-grid">
+                <div class="method-card reveal" data-layer="A">
+                    <div class="methodology-content">
+                        <span class="method-badge">Capa A · La Fotografía</span>
+                        <h3>Escala de Afinación Organizacional — EAO V.4</h3>
+                        <p>Instrumento psicométrico validado de 30 ítems que mide 6 factores críticos del sistema organizacional con precisión científica.</p>
+                        <ul class="method-features">
+                            <li>Estructura y Gobierno Corporativo</li>
+                            <li>Procesos y Eficiencia Operativa</li>
+                            <li>Cultura y Clima Organizacional</li>
+                            <li>Comunicación y Gestión del Conocimiento</li>
+                            <li>Desarrollo del Talento</li>
+                            <li>Gestión del Cambio y Adaptabilidad</li>
+                        </ul>
+                        <div class="method-result">
+                            <strong>Resultado:</strong> Radiografía objetiva de riesgos y prioridades estratégicas en 48 horas.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="method-card reveal" data-layer="B">
+                    <div class="methodology-content">
+                        <span class="method-badge">Capa B · El Video</span>
+                        <h3>Simulación de Desalineación Organizacional — SDO³</h3>
+                        <p>Observación conductual en tiempo real. Ponemos al equipo directivo bajo presión controlada para ver, sin filtros, cómo coordinan, deciden y reaccionan.</p>
+                        <ul class="method-features">
+                            <li><strong>Observación:</strong> Registro conductual sin sesgos del discurso oficial</li>
+                            <li><strong>Reflexión:</strong> Análisis profundo de patrones de desalineación</li>
+                            <li><strong>Intervención:</strong> Diseño de ruta correctiva basada en evidencia</li>
+                        </ul>
+                        <div class="method-result">
+                            <strong>Resultado:</strong> Espejo conductual que revela fallos invisibles de coordinación y liderazgo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- HOW — El Proceso Paso a Paso              -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="process-section">
+        <div class="container">
+            <div class="process-intro reveal">
+                <div class="layer-label layer-why">
+                    <span class="dot" style="background:var(--accent-light);"></span>
+                    Proceso transparente
+                </div>
+                <h2>El Diagnóstico de Afinación en 6 días</h2>
+                <p>Mínima interrupción operativa. Máximo insight. Aquí no hay cajas negras.</p>
+            </div>
+
+            <div class="process-timeline">
+                <div class="process-step reveal">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <span class="step-tag">Días 1–2</span>
+                        <h3>Aplicación EAO V.4</h3>
+                        <p class="step-summary">Evaluación psicométrica anónima a tu equipo (15–20 personas). 30 minutos por persona, online. Sin interrupción operativa.</p>
+                    </div>
+                </div>
+
+                <div class="process-step reveal">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <span class="step-tag">Día 3</span>
+                        <h3>Simulación SDO³</h3>
+                        <p class="step-summary">Sesión de 2–3 horas con líderes clave (5–8 personas). Observamos coordinación, decisiones y comunicación bajo presión real.</p>
+                    </div>
+                </div>
+
+                <div class="process-step reveal">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <span class="step-tag">Días 4–5</span>
+                        <h3>Análisis Profundo</h3>
+                        <p class="step-summary">Trabajo interno. Procesamos datos, identificamos patrones y construimos el reporte ejecutivo con mapa de riesgos.</p>
+                    </div>
+                </div>
+
+                <div class="process-step reveal">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <span class="step-tag">Día 6</span>
+                        <h3>Presentación de Resultados</h3>
+                        <p class="step-summary">Sesión ejecutiva de 2 horas. Recibes el reporte completo, el mapa de prioridades y los próximos pasos claros.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="process-summary reveal">
+                <div class="summary-item">
+                    <strong>📅 6 días</strong>
+                    <span>De inicio a resultados</span>
+                </div>
+                <div class="summary-item">
+                    <strong>⏱️ 4–5 horas</strong>
+                    <span>Tu tiempo total requerido</span>
+                </div>
+                <div class="summary-item">
+                    <strong>👥 15–20 + 5–8</strong>
+                    <span>Personas involucradas</span>
+                </div>
+                <div class="summary-item">
+                    <strong>🏢 Mínima</strong>
+                    <span>Interrupción operativa</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- WHAT — Los Resultados                      -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="results-section" id="results-section">
+        <div class="container">
+            <div class="results-intro reveal">
+                <div class="layer-label layer-what">
+                    <span class="dot"></span>
+                    Lo que obtienes
+                </div>
+                <h2>No vendemos consultoría. Construimos solidez.</h2>
+                <p>Tres resultados concretos que permanecen cuando nos retiramos.</p>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-card reveal">
+                    <div class="result-number">01</div>
+                    <h3>Claridad Total</h3>
+                    <p>Dejas de adivinar qué pasa en el fondo. Te mostramos los problemas que hoy son invisibles para la dirección. Sabrás exactamente dónde se está perdiendo dinero y por qué.</p>
+                </div>
+
+                <div class="result-card reveal">
+                    <div class="result-number">02</div>
+                    <h3>Sincronía Operativa</h3>
+                    <p>Los departamentos dejan de trabajar como islas y empiezan a avanzar al mismo ritmo. Es el fin de los esfuerzos aislados que no generan resultados colectivos.</p>
+                </div>
+
+                <div class="result-card reveal">
+                    <div class="result-number">03</div>
+                    <h3>Solidez para Crecer</h3>
+                    <p>Recuperas el dinero y la energía que se pierden en el caos. Construimos un sistema que no se rompe cuando la empresa intenta escalar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section" id="stats-section">
+        <div class="container">
+            <div class="stats-inner">
+                <div class="stat-item reveal">
+                    <div class="stat-num">$450K</div>
+                    <div class="stat-label">MXN anuales pierden en promedio<br>las PYMES con 11–250 colaboradores</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-num">3.2×</div>
+                    <div class="stat-label">más productividad en equipos<br>alineados vs. desalineados</div>
+                </div>
+                <div class="stat-item reveal">
+                    <div class="stat-num">47%</div>
+                    <div class="stat-label">de rotación de talento en empresas<br>con cultura desalineada</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- WHAT — Los Servicios                       -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="services-section" id="servicios">
+        <div class="container">
+            <div class="services-intro reveal">
+                <div class="layer-label layer-what">
+                    <span class="dot"></span>
+                    Formas de trabajar juntos
+                </div>
+                <h2>Cuando estés listo para afinar tu organización, así comenzamos.</h2>
+                <p>Nuestro sistema escala con tu necesidad. Desde validar el nivel de desalineación hasta una transformación integral de 9 meses.</p>
+            </div>
+
+            <!-- Oferta de Lanzamiento -->
+            <div class="launch-offer reveal">
+                <span class="launch-badge">Oferta de lanzamiento · 5 lugares</span>
+                <h3>Diagnóstico Patrocinado — Sin Costo</h3>
+                <p>
+                    Como parte del lanzamiento de Partitura Empresarial, estamos ofreciendo los primeros 5 Diagnósticos de Afinación de forma patrocinada (valor $8,000–$15,000 MXN). Buscamos empresas comprometidas con mejora real, no con parches.
+                </p>
+                <ul class="launch-criteria">
+                    <li>Empresa de 11 a 250 colaboradores</li>
+                    <li>Liderazgo comprometido con el proceso</li>
+                    <li>Sector industrial, comercial o de servicios</li>
+                    <li>Disposición a compartir aprendizajes (opcional)</li>
+                    <li>Evidencia de desalineación sistémica</li>
+                    <li>Capacidad de acción sobre los hallazgos</li>
+                </ul>
+                <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Diagn%C3%B3stico%20Patrocinado.%20Mi%20empresa%20tiene%20____%20colaboradores.%20Quisiera%20saber%20si%20califico." class="btn btn-gold">
+                    <span>📱</span>
+                    <span>Solicitar Diagnóstico Patrocinado</span>
+                </a>
+                <div class="countdown-wrap">
+                    <span class="countdown-label-text">Oferta válida por</span>
+                    <div class="countdown-digits" id="countdown">
+                        <div class="cd-block">
+                            <span class="cd-num" id="days">00</span>
+                            <span class="cd-unit">Días</span>
+                        </div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-block">
+                            <span class="cd-num" id="hours">00</span>
+                            <span class="cd-unit">Hrs</span>
+                        </div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-block">
+                            <span class="cd-num" id="minutes">00</span>
+                            <span class="cd-unit">Min</span>
+                        </div>
+                        <span class="cd-sep">:</span>
+                        <div class="cd-block">
+                            <span class="cd-num" id="seconds">00</span>
+                            <span class="cd-unit">Seg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portafolio completo -->
+            <div class="service-list">
+                <div class="svc-card reveal">
+                    <div>
+                        <span class="svc-type">Punto de entrada</span>
+                        <h3>Diagnóstico de Afinación Organizacional</h3>
+                        <p class="svc-desc">Aplicación de la EAO V.4 para obtener una radiografía precisa de riesgos y prioridades estratégicas. Reporte ejecutivo con hallazgos críticos y recomendaciones accionables.</p>
+                        <ul class="svc-features">
+                            <li>Evaluación psicométrica de 6 factores</li>
+                            <li>Reporte ejecutivo en 48 horas</li>
+                            <li>Sesión de presentación de resultados</li>
+                            <li>Mapa de prioridades estratégicas</li>
+                        </ul>
+                        <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Diagn%C3%B3stico%20de%20Afinaci%C3%B3n%20Organizacional." class="btn btn-dark" style="margin-top:1.5rem;">
+                            <span>📱</span><span>Solicitar este servicio</span>
+                        </a>
+                    </div>
+                    <div class="svc-price-col">
+                        <span class="svc-price-label">Inversión desde</span>
+                        <span class="svc-price-value">$8,000 MXN</span>
+                    </div>
+                </div>
+
+                <div class="svc-card reveal">
+                    <div>
+                        <span class="svc-type">Análisis profundo</span>
+                        <h3>Diagnóstico Profundo de Arquitectura Organizacional</h3>
+                        <p class="svc-desc">EAO V.4 + SDO³ combinados. Capturamos percepción y conducta real. Identificamos con precisión los fallos invisibles de coordinación que ningún diagnóstico convencional ve.</p>
+                        <ul class="svc-features">
+                            <li>Evaluación psicométrica completa</li>
+                            <li>Simulación conductual en tiempo real</li>
+                            <li>Análisis de brecha percepción vs. conducta</li>
+                            <li>Reporte integral con evidencia conductual</li>
+                        </ul>
+                        <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Diagn%C3%B3stico%20Profundo." class="btn btn-dark" style="margin-top:1.5rem;">
+                            <span>📱</span><span>Solicitar este servicio</span>
+                        </a>
+                    </div>
+                    <div class="svc-price-col">
+                        <span class="svc-price-label">Inversión desde</span>
+                        <span class="svc-price-value">$20,000 MXN</span>
+                    </div>
+                </div>
+
+                <div class="svc-card reveal">
+                    <div>
+                        <span class="svc-type">Diseño estratégico</span>
+                        <h3>Diseño de Ruta de Alineación</h3>
+                        <p class="svc-desc">Plan estratégico personalizado con intervenciones específicas, métricas de seguimiento y roadmap de implementación. De la radiografía a la acción concreta.</p>
+                        <ul class="svc-features">
+                            <li>Diagnóstico profundo incluido</li>
+                            <li>Intervenciones por factor diagnosticado</li>
+                            <li>Roadmap a 6–12 meses</li>
+                            <li>KPIs y tablero de control</li>
+                        </ul>
+                        <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Dise%C3%B1o%20de%20Ruta." class="btn btn-dark" style="margin-top:1.5rem;">
+                            <span>📱</span><span>Solicitar este servicio</span>
+                        </a>
+                    </div>
+                    <div class="svc-price-col">
+                        <span class="svc-price-label">Inversión desde</span>
+                        <span class="svc-price-value">$45,000 MXN</span>
+                    </div>
+                </div>
+
+                <div class="svc-card reveal" style="border-color: rgba(212,175,55,0.3);">
+                    <div>
+                        <span class="svc-type" style="color:var(--accent);">🔥 Transformación completa</span>
+                        <h3>Programa de Implementación Directiva</h3>
+                        <p class="svc-desc">Acompañamiento integral de 6–9 meses para ejecutar la transformación. Todas las fases anteriores más implementación mano a mano con el equipo directivo.</p>
+                        <ul class="svc-features">
+                            <li>Diagnóstico + Diseño de Ruta incluidos</li>
+                            <li>Sesiones mensuales con directivos</li>
+                            <li>Laboratorio de Liderazgo Adaptativo</li>
+                            <li>Gestión de Cultura de Innovación</li>
+                            <li>Medición de impacto trimestral</li>
+                        </ul>
+                        <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Programa%20de%20Implementaci%C3%B3n%20Directiva." class="btn btn-gold" style="margin-top:1.5rem;">
+                            <span>📱</span><span>Solicitar cotización personalizada</span>
+                        </a>
+                    </div>
+                    <div class="svc-price-col">
+                        <span class="svc-price-label">Inversión</span>
+                        <span class="svc-price-value" style="font-size:1.3rem;">A medida</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- CTA FINAL                                  -->
+    <!-- ══════════════════════════════════════════ -->
+
+    <section class="cta-final" id="contacto">
+        <div class="container">
+            <div class="cta-inner reveal">
+                <div class="layer-label" style="justify-content:center; color:var(--accent-light); font-size:0.72rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; margin-bottom:2rem; display:inline-flex; align-items:center; gap:0.6rem;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;display:inline-block;"></span>
+                    El siguiente paso
+                </div>
+                <h2>¿Tu sistema está preparado para crecer?</h2>
+                <p>
+                    Una Sesión de Claridad Organizacional (30–40 min) para evaluar juntos si tu empresa está lista para su siguiente etapa. Sin compromiso. Sin diagnóstico forzado.
+                </p>
+
+                <ul class="qualify-list">
+                    <li>Tu empresa tiene entre 11 y 250 colaboradores</li>
+                    <li>Sientes que el crecimiento amplifica el caos en lugar de resolverlo</li>
+                    <li>Los mismos problemas reaparecen aunque cambies de personal</li>
+                    <li>Inviertes en soluciones pero los resultados no se sostienen</li>
+                    <li>Estás dispuesto a trabajar en el fondo, no en parches</li>
+                    <li><strong style="color:rgba(255,255,255,0.9);">Estás listo para agendar esta semana</strong></li>
+                </ul>
+
+                <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20el%20Diagn%C3%B3stico%20de%20Afinaci%C3%B3n%20Organizacional.%20Mi%20empresa%20tiene%20____%20empleados%20y%20nuestro%20principal%20reto%20es%20____"
+                   class="btn btn-gold" style="font-size:1rem; padding:1.2rem 3rem;">
+                    <span>📱</span>
+                    <span>Solicitar Sesión de Claridad por WhatsApp</span>
+                </a>
+                <p class="cta-micro">Respuesta en menos de 2 horas &nbsp;·&nbsp; Sin compromiso &nbsp;·&nbsp; 100% confidencial</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <a href="#" class="logo">🎼 PARTITURA <span>EMPRESARIAL</span></a>
+                    <p class="footer-tagline">"Las mejores organizaciones no son las que nunca se desafinan, sino las que saben recuperar la armonía rápidamente."</p>
+                </div>
+
+                <div class="footer-contact">
+                    <span>📱 +52 449 227 6838</span>
+                    <span>📍 Aguascalientes, México</span>
+                    <div class="social-links" style="margin-top:1.2rem;">
+                        <a href="https://linkedin.com/in/pedrodanielcruzverdeja" class="social-link" target="_blank" title="LinkedIn">
+                            <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                        <a href="https://wa.me/524492276838" class="social-link" target="_blank" title="WhatsApp">
+                            <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Partitura Empresarial &nbsp;·&nbsp; Todos los derechos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/524492276838?text=Hola%2C%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20Partitura%20Empresarial"
+       class="wa-float" target="_blank" aria-label="WhatsApp">💬</a>
+
+
+    <script>
+        // Header scroll
+        const header = document.getElementById('site-header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transitionDelay = (i % 3) * 0.1 + 's';
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+        revealEls.forEach(el => revealObserver.observe(el));
+
+        // ─── PROGRESS INDICATOR ──────────────────────────────
+        (function() {
+            const pill         = document.querySelector('.progress-pill');
+            const pFill        = document.getElementById('pFill');
+            const pPct         = document.getElementById('pPct');
+            const pLabel       = document.getElementById('pLabel');
+            const barMobile    = document.querySelector('.progress-bar-mobile');
+            const pBarMobile   = document.getElementById('pBarMobile');
+            const pLabelMobile = document.getElementById('pLabelMobile');
+
+            // 'dark'  = fondo verde oscuro/negro  → texto dorado
+            // 'gold'  = fondo amarillo/dorado      → texto verde oscuro
+            // 'light' = fondo blanco/gris claro    → texto verde primario
+            const sections = [
+                { id: 'hero-why',         label: 'Por qué',     theme: 'dark'  },
+                { id: 'founder-section',  label: 'Historia',    theme: 'light' },
+                { id: 'problem-section',  label: 'El patrón',   theme: 'dark'  },
+                { id: 'bridge-statement', label: 'Propósito',   theme: 'gold'  },
+                { id: 'how-section',      label: 'Metodología', theme: 'light' },
+                { id: 'process-section',  label: 'Proceso',     theme: 'light' },
+                { id: 'results-section',  label: 'Resultados',  theme: 'dark'  },
+                { id: 'stats-section',    label: 'Datos',       theme: 'gold'  },
+                { id: 'services-section', label: 'Servicios',   theme: 'light' },
+                { id: 'contacto',         label: 'Contacto',    theme: 'dark'  },
+            ];
+
+            function getProgress() {
+                const docH = document.documentElement.scrollHeight - window.innerHeight;
+                return docH > 0 ? Math.min(Math.round(window.scrollY / docH * 100), 100) : 0;
+            }
+
+            function getActive() {
+                const mid = window.innerHeight * 0.4;
+                let active = sections[0];
+                sections.forEach(s => {
+                    const el = document.getElementById(s.id);
+                    if (el && el.getBoundingClientRect().top <= mid) active = s;
+                });
+                return active;
+            }
+
+            function applyTheme(theme) {
+                ['theme-dark','theme-gold','theme-light'].forEach(c => {
+                    pill.classList.remove(c);
+                    barMobile.classList.remove(c);
+                });
+                pill.classList.add('theme-' + theme);
+                barMobile.classList.add('theme-' + theme);
+            }
+
+            function update() {
+                const p      = getProgress();
+                const active = getActive();
+                const pStr   = p + '%';
+
+                pFill.style.height     = pStr;
+                pPct.textContent       = pStr;
+                pLabel.textContent     = active.label;
+                pBarMobile.style.width = pStr;
+                pLabelMobile.textContent = active.label;
+
+                applyTheme(active.theme);
+            }
+
+            // Arrancar con tema oscuro (hero)
+            pill.classList.add('theme-dark');
+            barMobile.classList.add('theme-dark');
+
+            window.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+            update();
+        })();
+
+        // Countdown
+        function initCountdown() {
+            const end = Date.now() + 10 * 24 * 60 * 60 * 1000;
+            function tick() {
+                const diff = end - Date.now();
+                if (diff < 0) {
+                    document.getElementById('countdown').innerHTML = '<span style="color:var(--accent-light);font-size:1.1rem;letter-spacing:1px;">Oferta finalizada</span>';
+                    return;
+                }
+                const d = Math.floor(diff / 86400000);
+                const h = Math.floor((diff % 86400000) / 3600000);
+                const m = Math.floor((diff % 3600000) / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                const pad = n => String(n).padStart(2,'0');
+                document.getElementById('days').textContent = pad(d);
+                document.getElementById('hours').textContent = pad(h);
+                document.getElementById('minutes').textContent = pad(m);
+                document.getElementById('seconds').textContent = pad(s);
+            }
+            tick();
+            setInterval(tick, 1000);
+        }
+        window.addEventListener('load', initCountdown);
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
