@@ -431,14 +431,9 @@
                 <div class="oferta-badge">
                     <span class="ob-icon">🎁</span>
                     <div>
-                        <span class="ob-label">Lanzamiento · 5 lugares disponibles</span>
-                        <span class="ob-text">Diagnóstico patrocinado sin costo (valor $8K–$15K MXN)</span>
-                        <div class="cd-mini">
-                            <span class="cd-mini-label">Vigente por</span>
-                            <span class="cd-mini-num" id="cd-d">--</span><span class="cd-mini-sep">d</span>
-                            <span class="cd-mini-num" id="cd-h">--</span><span class="cd-mini-sep">h</span>
-                            <span class="cd-mini-num" id="cd-m">--</span><span class="cd-mini-sep">m</span>
-                        </div>
+                        <span class="ob-label">Precio de lanzamiento · Solo 5 lugares</span>
+                        <span class="ob-text">Diagnóstico de Afinación por <strong style="color:var(--accent-light);">$3,500 MXN</strong> <span style="color:rgba(255,255,255,0.35);text-decoration:line-through;font-size:0.75rem;">precio regular $8,000</span></span>
+                        <span style="display:block;font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:0.3rem;">Para los primeros 5 empresarios que se registren</span>
                     </div>
                 </div>
 
@@ -462,7 +457,7 @@
                     <div class="form-group">
                         <select class="form-select" id="fInteres">
                             <option value="" disabled selected>¿Qué te interesa explorar?</option>
-                            <option value="Diagnóstico patrocinado (sin costo)">Diagnóstico patrocinado (sin costo)</option>
+                            <option value="Diagnóstico de lanzamiento $3,500 (5 primeros lugares)">Diagnóstico de lanzamiento $3,500 — 5 primeros lugares</option>
                             <option value="Diagnóstico de Afinación $8K">Diagnóstico de Afinación $8K</option>
                             <option value="Diagnóstico Profundo $20K">Diagnóstico Profundo $20K</option>
                             <option value="Diseño de Ruta $45K">Diseño de Ruta $45K</option>
@@ -515,27 +510,6 @@
         });
     }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-
-    // Countdown persistente
-    (function(){
-        const KEY = 'pe_v3_end', DAYS = 14;
-        let end = parseInt(localStorage.getItem(KEY), 10);
-        if (!end || isNaN(end)) {
-            end = Date.now() + DAYS * 86400000;
-            try { localStorage.setItem(KEY, end); } catch(e){}
-        }
-        function tick(){
-            const diff = end - Date.now();
-            const pad = n => String(n).padStart(2,'0');
-            if (diff <= 0) { ['cd-d','cd-h','cd-m'].forEach(id => { const el=document.getElementById(id); if(el) el.textContent='00'; }); return; }
-            const d = Math.floor(diff/86400000);
-            const h = Math.floor((diff%86400000)/3600000);
-            const m = Math.floor((diff%3600000)/60000);
-            const elD=document.getElementById('cd-d'), elH=document.getElementById('cd-h'), elM=document.getElementById('cd-m');
-            if(elD) elD.textContent=pad(d); if(elH) elH.textContent=pad(h); if(elM) elM.textContent=pad(m);
-        }
-        tick(); setInterval(tick, 30000);
-    })();
 
     // Formulario → abre WhatsApp con datos pre-rellenados (funciona en GitHub Pages)
     const form = document.getElementById('cForm');
